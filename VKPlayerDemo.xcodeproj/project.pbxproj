@@ -54,6 +54,7 @@
 		F85A433A1FC6BBB100871EAF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F85A43461FC6E48600871EAF /* MainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		F85A43471FC6E48600871EAF /* MainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		F8A48E461FC820A600ECE159 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +116,7 @@
 				F85A43231FC6BBB000871EAF /* main.m */,
 				F85A43461FC6E48600871EAF /* MainViewController.h */,
 				F85A43471FC6E48600871EAF /* MainViewController.m */,
+				F8A48E461FC820A600ECE159 /* PrefixHeader.pch */,
 			);
 			path = VKPlayerDemo;
 			sourceTree = "<group>";
@@ -440,6 +442,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8L93L5QT7E;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/VKPlayerDemo/PrefixHeader.pch";
 				INFOPLIST_FILE = VKPlayerDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jinyou.VKPlayerDemo;
@@ -458,6 +461,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8L93L5QT7E;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/VKPlayerDemo/PrefixHeader.pch";
 				INFOPLIST_FILE = VKPlayerDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jinyou.VKPlayerDemo;

@@ -30,12 +30,18 @@
     self.tableview.dataSource = self;
     self.tableview.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.tableview];
-    
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
     [self initData];
 }
 
 - (void)initData
 {
+    [self.arrayData removeAllObjects];
+    
     self.docsDir = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSDirectoryEnumerator *dirEnum = [fileManager enumeratorAtPath:self.docsDir];
@@ -63,6 +69,11 @@
     return self.arrayData.count;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 60;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *cellIdentifier = @"cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
@@ -85,7 +96,43 @@
         view.fileName = [self.arrayData objectAtIndex:indexPath.row];
         [self presentViewController:view animated:YES completion:nil];
     }
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    NSString *filePath = [self.docsDir stringByAppendingPathComponent:[self.arrayData objectAtIndex:indexPath.row]];
+    NSString *fileName = [self.arrayData objectAtIndex:indexPath.row];
+    
+    [self deleteFile:filePath fileName:fileName indexPath:indexPath];
+} /** * 修改Delete按钮文字为“删除” */
+    
+- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath { return @"删除"; }
+
+- (void)deleteFile:(NSString *)filePath fileName:(NSString *)fileName indexPath:(NSIndexPath *)indexPath
+{
+    NSFileManager *fileMgr = [NSFileManager defaultManager];
+    
+    BOOL bRet = [fileMgr fileExistsAtPath:filePath];
+    if (bRet) {
+        NSError *err;
+        [fileMgr removeItemAtPath:filePath error:&err];
+
+        NSString *msg;
+        if (err) {
+            msg = [NSString stringWithFormat:@"%@",err];
+        }else{
+            msg = @"删除成功";
+            [[NSUserDefaults standardUserDefaults] removeObjectForKey:fileName];
+        }
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:msg delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        
+        // 删除模型
+        [self.arrayData removeObjectAtIndex:indexPath.row];
+        // 刷新
+        [self.tableview deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+    }
 }
 
 - (void)viewDidLayoutSubviews
